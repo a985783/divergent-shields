@@ -1,17 +1,19 @@
-# Data Sources Documentation
+# Data Sources Documentation | 数据来源说明
+
+[English](#english) | [中文](#chinese)
+
+---
+
+<div id="english">
 
 ## Overview
 This document provides detailed information about all data sources used in the research project "Divergent Shields: A Comparative Assessment of the Iberian Mechanism and Monetary Independence during the 2022 Energy Crisis."
 
----
-
-##  1. HICP (Harmonized Index of Consumer Prices)
+## 1. HICP (Harmonized Index of Consumer Prices)
 
 **File**: `prc_hicp_midx.tsv.gz`  
 **Source**: Eurostat  
 **URL**: https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_midx/default/table  
-**Download Date**: 2024-01-15  
-**Data Version**: Last updated 2024-01-10  
 **Time Coverage**: 2015-01 to 2023-12  
 **Geographic Coverage**: EU27 + additional European countries  
 
@@ -24,17 +26,13 @@ This document provides detailed information about all data sources used in the r
 **Data Processing**:
 1. Extracted data for ES, PL, DE, FR, IT, NL, AT
 2. Converted monthly index to year-over-year growth rates
-3. Handled missing values: forward-filled for max 2 months
-
----
+3. Missing values: forward-filled for max 2 months
 
 ## 2. Industrial Production Index
 
 **File**: `sts_inpr_m.tsv.gz`  
 **Source**: Eurostat Short-Term Statistics  
 **URL**: https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m  
-**Download Date**: 2024-01-15  
-**Data Version**: Last updated 2024-01-08  
 **Time Coverage**: 2015-01 to 2023-12  
 
 **Variables Used**:
@@ -45,126 +43,132 @@ This document provides detailed information about all data sources used in the r
 1. Log-differenced to obtain growth rates
 2. Used Eurozone aggregate (EA19) as control variable
 
----
-
 ## 3. Energy Prices
 
 ### 3.1 Brent Oil Price
-
 **File**: `brent_oil_price_fred.csv`  
-**Source**: Federal Reserve Economic Data (FRED)  
+**Source**: FRED (Federal Reserve Economic Data)  
 **Series ID**: DCOILBRENTEU  
-**URL**: https://fred.stlouisfed.org/series/DCOILBRENTEU  
-**Download Date**: 2024-01-12  
 **Frequency**: Daily (converted to monthly average)  
-**Units**: USD per barrel  
-
-**Data Processing**:
-1. Averaged daily prices to monthly
-2. Converted to EUR using USD/EUR exchange rate
-3. Log-differenced for shock identification
+**Units**: USD per barrel (converted to EUR)
 
 ### 3.2 Natural Gas Price
-
 **File**: `gas_price_imf.csv`  
-**Source**: International Monetary Fund (IMF) Primary Commodity Prices  
+**Source**: IMF Primary Commodity Prices  
 **Series**: European Natural Gas (Dutch TTF)  
-**URL**: https://www.imf.org/en/Research/commodity-prices  
-**Download Date**: 2024-01-12  
 **Frequency**: Monthly  
-**Units**: USD per mmbtu (converted to EUR/MWh)  
-
-**Data Processing**:
-1. Converted from USD/mmbtu to EUR/MWh
-2. Log-differenced: `DL_Gas_EUR = 100 * log(Gas_t / Gas_{t-1})`
-
----
+**Units**: USD per mmbtu (converted to EUR/MWh)
 
 ## 4. Exchange Rates
 
 ### 4.1 PLN/EUR Exchange Rate
-
 **File**: `ecb_pln_eur.csv`  
-**Source**: European Central Bank Statistical Data Warehouse  
+**Source**: ECB Statistical Data Warehouse  
 **Series ID**: EXR.M.PLN.EUR.SP00.A  
-**URL**: https://sdw.ecb.europa.eu/  
-**Download Date**: 2024-01-12  
 **Frequency**: Monthly (end-of-month)  
 
-**Data Processing**:
-1. Log-differenced: `DL_XR_Local = 100 * log(XR_t / XR_{t-1})`
-2. Positive values = PLN depreciation
-
 ### 4.2 USD/EUR Exchange Rate
-
 **File**: `usd_eur_rate.csv`  
 **Source**: FRED  
 **Series ID**: DEXUSEU  
-**Download Date**: 2024-01-12  
 
-**Usage**: Used for converting USD-denominated prices to EUR
-
----
-
-## 5. Energy Structure Data (Reference)
-
-**Source**: International Energy Agency (IEA) - Electricity Information 2022  
-**URL**: https://www.iea.org/data-and-statistics  
-**Access Date**: 2024-01-10  
-**Usage**: Validation of donor pool selection (Spain-Italy energy mix similarity)
-
-**Key Statistics (2021)**:
-- Spain: Gas-fired generation ~48%, Renewables ~30%, Nuclear ~22%
-- Italy: Gas-fired generation ~45%, Renewables ~35%, Other ~20%
-- Germany: Coal ~30%, Renewables ~40%, Gas ~15%, Nuclear ~12%
-- France: Nuclear ~70%, Renewables ~20%, Gas ~7%
-
----
-
-## Data Quality and Limitations
+## 5. Data Quality and Limitations
 
 ### Missing Values
-- HICP data: \u003c1% missing, forward-filled (max 2 months)
+- HICP data: <1% missing, forward-filled (max 2 months)
 - Industrial production: Complete for main countries
-- Exchange rates: Complete (no missing)
+- Exchange rates: Complete
 
 ### Revisions
-- Eurostat data subject to revisions up to 3 months after initial release
-- All data downloaded in January 2024 reflect revisions through December 2023
-
-### Frequency Alignment
-- All series converted to monthly frequency
-- Daily data (oil prices, exchange rates) averaged to month-end values
-
----
+- All data downloaded in January 2024 reflect revisions through December 2023.
 
 ## Reproducibility
+All data sources are publicly accessible. See `scripts/download_data.sh` for partial automation instructions.
 
-### Data Access
-All data sources are publicly accessible and free of charge (registration may be required for some Eurostat bulk downloads).
-
-### Code for Data Download
-See `scripts/download_data.sh` for automated download scripts (requires API keys for some sources).
-
-### Data Processing Pipeline
-```
-raw/ → scripts/process_data.py → processed/merged_data.csv
-```
-
-Full processing code available in:
-- `scripts/process_data.py`: Main processing script
-- `scripts/utils.py`: Helper functions for data cleaning
+</div>
 
 ---
 
-## Contact for Data Issues
+<div id="chinese">
 
-If you encounter issues reproducing the data:
-1. Check data source URLs (may have changed)
-2. Verify download dates (historical data may be updated)
-3. Contact: [author email] for processed data availability
+## 概述
+本文档详细列出了研究项目"分歧的盾牌：2022年能源危机期间伊比利亚机制与货币独立性的比较评估"中使用的所有数据来源。
 
----
+## 1. HICP (调和消费者物价指数)
 
-**Last Updated**: 2024-01-24  
-**Document Version**: 1.0
+**文件**: `prc_hicp_midx.tsv.gz`  
+**来源**: Eurostat (欧盟统计局)  
+**网址**: https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_midx/default/table  
+**时间范围**: 2015年1月 - 2023年12月  
+**覆盖范围**: 欧盟27国 + 其他欧洲国家  
+
+**使用变量**:
+- `HICP_Total`: 总体HICP指数 (COICOP: CP00)
+- `HICP_Energy`: 能源分项 (CP045)
+- `HICP_Core`: 核心通胀 (不含能源和未加工食品)
+- `CP0451`: 电力价格 (具体子类)
+
+**数据处理**:
+1. 提取 ES, PL, DE, FR, IT, NL, AT 的数据
+2. 将月度指数转换为同比年增长率
+3. 缺失值处理: 向前填充 (最多2个月)
+
+## 2. 工业生产指数 (Industrial Production Index)
+
+**文件**: `sts_inpr_m.tsv.gz`  
+**来源**: Eurostat 短期统计  
+**网址**: https://ec.europa.eu/eurostat/databrowser/view/sts_inpr_m  
+**时间范围**: 2015年1月 - 2023年12月  
+
+**使用变量**:
+- `IP_Total`: 工业生产总指数 (2015=100)
+- 经季节性调整序列
+
+**数据处理**:
+1. 对数差分计算增长率
+2. 使用欧元区聚合数据 (EA19) 作为控制变量
+
+## 3. 能源价格
+
+### 3.1 布伦特原油价格
+**文件**: `brent_oil_price_fred.csv`  
+**来源**: FRED (美联储经济数据)  
+**系列ID**: DCOILBRENTEU  
+**频率**: 日度 (转换为月度平均)  
+**单位**: 美元/桶 (已转换为欧元)
+
+### 3.2 天然气价格
+**文件**: `gas_price_imf.csv`  
+**来源**: IMF 初级商品价格  
+**系列**: 欧洲天然气 (荷兰TTF)  
+**频率**: 月度  
+**单位**: 美元/mmbtu (已转换为欧元/MWh)
+
+## 4. 汇率数据
+
+### 4.1 波兰兹罗提/欧元 (PLN/EUR)
+**文件**: `ecb_pln_eur.csv`  
+**来源**: ECB (欧洲央行) 统计数据仓库  
+**系列ID**: EXR.M.PLN.EUR.SP00.A  
+**频率**: 月度 (月末值)  
+
+### 4.2 美元/欧元 (USD/EUR)
+**文件**: `usd_eur_rate.csv`  
+**来源**: FRED  
+**系列ID**: DEXUSEU  
+**用途**: 用于将美元计价的能源价格转换为欧元
+
+## 5. 数据质量与限制
+
+### 缺失值
+- HICP数据: 缺失<1%，采用向前填充 (max 2个月)
+- 工业生产: 主要国家数据完整
+- 汇率: 完整无缺失
+
+### 数据修订
+- 所有数据下载于2024年1月，反映了截至2023年12月的数据修订情况。
+
+## 可复现性
+所有数据来源均为公开可获取。自动化下载脚本见 `scripts/download_data.sh`。
+
+</div>
