@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it as below."
+title: "Divergent Shields: A Comparative Assessment of the Iberian Mechanism and Monetary Independence during the 2022 Energy Crisis"
+type: software
+authors:
+  - family-names: "Cui"
+    given-names: "Qingsong"
+    affiliation: "Independent Researcher"
+    email: "qingsongcui9857@gmail.com"
+version: 1.0.0
+date-released: 2026-02-13
+license: MIT
+repository-code: "https://github.com/a985783/divergent-shields.git"
+keywords:
+  - energy crisis
+  - synthetic control
+  - local projections
+  - inflation
