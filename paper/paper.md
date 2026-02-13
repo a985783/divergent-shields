@@ -255,7 +255,7 @@ This paper provides a comparative assessment of two distinct responses to the 20
 
 ### Data Availability Statement
 
-The complete replication package for this paper (including code and data) is hosted on GitHub and is available at: [https://github.com/a985783/divergent-shields.git](https://github.com/a985783/divergent-shields.git).
+The complete replication package for this paper (including code and data) is hosted on GitHub and is available at: [https://github.com/a985783/divergent-shields](https://github.com/a985783/divergent-shields).
 
 ## References
 

@@ -110,7 +110,7 @@ Please use `CITATION.cff` for GitHub/Zotero-friendly citation import.
   title={Divergent Shields: A Comparative Assessment of the Iberian Mechanism and Monetary Independence during the 2022 Energy Crisis},
   author={Cui, Qingsong},
   year={2026},
-  note={Replication package: https://github.com/a985783/divergent-shields.git}
+  note={Replication package: https://github.com/a985783/divergent-shields}
 }
 ```
 
