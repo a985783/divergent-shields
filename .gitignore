@@ -21,3 +21,12 @@ temp/
 # Build artifacts
 dist/
 build/
+
+# LaTeX
+*.aux
+*.out
+*.log
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
