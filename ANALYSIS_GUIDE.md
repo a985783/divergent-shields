@@ -20,51 +20,6 @@
 - 国家: 西班牙(ES)、波兰(PL) + 5个控制国
 - 变量: 通胀指标、工业产出、能源价格、汇率
 
-## 快速开始
-
-### 安装依赖
-
-```bash
-pip install -r requirements.txt
-```
-
-### 运行完整分析
-
-```bash
-# 方式1: 运行所有分析（推荐）
-python run_all.py
-
-# 方式2: 仅运行主要分析（跳过稳健性检验，更快）
-python run_all.py --fast
-
-# 方式3: 逐步运行（每步确认）
-python run_all.py --step
-```
-
-### 分步运行
-
-如果只想运行特定分析：
-
-```bash
-# 1. 数据处理
-python scripts/process_data.py
-
-# 2. 描述性统计
-python analysis/01_descriptive.py
-
-# 3. 局部投影（增强版）
-python analysis/02_local_projections_enhanced.py
-
-# 4. 合成控制法（增强版）
-python analysis/03_synthetic_control_spain_enhanced.py
-
-# 5. 安慰剂检验
-python analysis/04_scm_placebo_tests.py
-
-# 6. 稳健性检验（可选）
-python analysis/05_robustness_checks.py
-```
-
 ## 输出文件
 
 ### 表格文件 (`paper/tables/`)
@@ -113,12 +68,11 @@ python analysis/05_robustness_checks.py
 如果使用了本代码，请引用：
 
 ```bibtex
-@techreport{energyCrisisPolicy2026,
-  title={Divergent Shields: A Comparative Assessment of the "Iberian Mechanism" and Monetary Independence during the 2022 Energy Crisis},
-  author={Author Name},
+@techreport{cui2026divergentshields,
+  title={Divergent Shields: A Comparative Assessment of the Iberian Mechanism and Monetary Independence during the 2022 Energy Crisis},
+  author={Cui, Qingsong},
   year={2026},
-  institution={Institution},
-  note={Python package available at: [repository URL]}
+  note={Replication package: https://github.com/a985783/divergent-shields}
 }
 ```
 
