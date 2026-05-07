@@ -1,0 +1,7 @@
+outcome,horizon,beta_crisis_FX,p_crisis_FX,beta_normal_FX,p_normal_FX
+HICP_Total,6,0.7471,0.067,0.4124,0.224
+HICP_Total,12,1.0142,0.063,0.7698,0.172
+HICP_Core,6,0.4719,0.031,0.1814,0.452
+HICP_Core,12,0.6858,0.006,0.34,0.403
+IP_Total,6,-0.6456,0.701,2.7228,0.106
+IP_Total,12,2.2834,0.01,2.1432,0.048

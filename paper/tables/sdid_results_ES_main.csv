@@ -1,0 +1,9 @@
+metric,value
+SDID_estimate_pp,-3.2088
+Jackknife_SE,0.2873
+CI_lower_95,-3.7719
+CI_upper_95,-2.6457
+t_stat,-11.168
+N_donors,5.0
+T_pre,41.0
+T_post,19.0
