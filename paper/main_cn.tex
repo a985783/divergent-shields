@@ -17,7 +17,8 @@
 % Packages
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{amssymb}
+\usepackage{unicode-math}
+\setmathfont{STIX Two Math}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, pdftitle={分歧的盾牌：2022年能源危机期间“伊比利亚机制”与货币独立性的比较评估}, pdfauthor={Qingsong Cui}]{hyperref}
@@ -91,15 +92,15 @@
 设$\pi_t^j$为国家$j \in \{A, B\}$的整体通胀率，其中$A$代表西班牙，$B$代表波兰。两国面临相同的外生全球能源价格冲击$\Delta p_t^G$（TTF天然气价格变动）。总通胀方程为：
 
 \[
-\pi_t^j = \theta^j \nu \,\Delta \tilde{p}_t^{G,j} + (1-\theta^j)\pi_t^{D,j} + \varepsilon_t^j
+\pi_t^j = \theta^j \nu \Delta p_t^{G} + (1 - \theta^j)\pi_t^{D,j} + e_t^j
 \]
 
 其中$\theta^j \in (0,1)$为消费篮子中的能源份额，$\nu > 0$为国内传递系数，$\pi_t^{D,j}$反映非能源价格动态。两国的关键差异在于各自面临的有效能源价格：
 
 \begin{align*}
-\Delta \tilde{p}_t^{G,A} &= \min\!\bigl(\Delta p_t^G,\;\Delta \bar{p}^G\bigr)
+\Delta p_t^{G,A} &= \min\!\bigl(\Delta p_t^G,\;\Delta \bar{p}^G\bigr)
   & \text{（西班牙：伊比利亚上限生效）}\\[4pt]
-\Delta \tilde{p}_t^{G,B} &= \Delta p_t^G + \xi\,\Delta s_t^B
+\Delta p_t^{G,B} &= \Delta p_t^G + \xi\,\Delta s_t^B
   & \text{（波兰：完全传递，叠加汇率分量）}
 \end{align*}
 
@@ -113,16 +114,17 @@
 波兰保有货币主权，NBP面对通胀上升依据泰勒规则作出反应：
 
 \[
-i_t^B = \bar{i} + \phi_\pi\bigl(\pi_t^B - \pi^*\bigr) + \phi_y\tilde{y}_t^B, \quad \phi_\pi > 1
+i_t^B = r + \phi_\pi(\pi_t^B - \pi_{target}) + \phi_y y_t^B
 \]
 
-其中$\phi_y \geq 0$为产出缺口系数，$\tilde{y}_t^B$为产出缺口。正常情况下，根据利率平价（UIP）条件，
+其中$\phi_\pi > 1$，$\phi_y \geq 0$为产出缺口系数，$y_t^B$为产出缺口。正常情况下，根据利率平价（UIP）条件，
 
 \[
-\mathbb{E}_t\bigl[s_{t+1}^B\bigr] - s_t^B = i_t^B - i_t^*
+E_t[s_{t+1}^B] - s_t^B = i_t^B - i_t^*
 \]
+其中，$i_t^*$表示外国基准利率。
 
-加息预期应使兹罗提升值。然而，2022年能源危机期间，全球风险规避驱动资本从中东欧货币持续外流，兹罗提在激进加息背景下仍然\textit{贬值}——即Calvo和Reinhart（2002）所记录的"浮动恐惧"现象。贬值随即反馈至$\Delta \tilde{p}_t^{G,B}$，进一步推升通胀并触发更多加息，形成顺周期放大循环，在加剧产出损失的同时却无法持续压制通胀。
+加息预期应使兹罗提升值。然而，2022年能源危机期间，全球风险规避驱动资本从中东欧货币持续外流，兹罗提在激进加息背景下仍然\textit{贬值}——即Calvo和Reinhart（2002）所记录的"浮动恐惧"现象。贬值随即反馈至$\Delta p_t^{G,B}$，进一步推升通胀并触发更多加息，形成顺周期放大循环，在加剧产出损失的同时却无法持续压制通胀。
 
 
 \subsection{对实证设计的启示}

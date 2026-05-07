@@ -14,7 +14,8 @@
 % Packages
 \usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage{amssymb}
+\usepackage{unicode-math}
+\setmathfont{STIX Two Math}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, pdftitle={Divergent Shields: A Comparative Assessment of the "Iberian Mechanism" and Monetary Independence during the 2022 Energy Crisis}, pdfauthor={Qingsong Cui}]{hyperref}
@@ -88,15 +89,15 @@ To organize the empirical analysis, we sketch a minimal two-country open-economy
 Let $\pi_t^j$ denote headline inflation in country $j \in \{A, B\}$, where $A$ is Spain and $B$ is Poland. Both economies face the same exogenous global energy price shock $\Delta p_t^G$ (the TTF gas price change). The aggregate inflation equation is:
 
 \[
-\pi_t^j = \theta^j \nu \,\Delta \tilde{p}_t^{G,j} + (1-\theta^j)\pi_t^{D,j} + \varepsilon_t^j
+\pi_t^j = \theta^j \nu \Delta p_t^{G} + (1 - \theta^j)\pi_t^{D,j} + e_t^j
 \]
 
 where $\theta^j \in (0,1)$ is the energy share in the consumption basket, $\nu > 0$ is the domestic pass-through coefficient, and $\pi_t^{D,j}$ captures non-energy price dynamics. The critical asymmetry lies in the effective energy price faced by each country:
 
 \begin{align*}
-\Delta \tilde{p}_t^{G,A} &= \min\!\bigl(\Delta p_t^G,\;\Delta \bar{p}^G\bigr)
+\Delta p_t^{G,A} &= \min\!\bigl(\Delta p_t^G,\;\Delta \bar{p}^G\bigr)
   & \text{(Spain: Iberian cap binds)}\\[4pt]
-\Delta \tilde{p}_t^{G,B} &= \Delta p_t^G + \xi\,\Delta s_t^B
+\Delta p_t^{G,B} &= \Delta p_t^G + \xi\,\Delta s_t^B
   & \text{(Poland: full pass-through, plus FX component)}
 \end{align*}
 
@@ -110,16 +111,17 @@ Spain, as a Eurozone member, delegates monetary policy to the ECB. Its domestic 
 Poland retains monetary sovereignty. Facing elevated inflation, the NBP follows a Taylor rule:
 
 \[
-i_t^B = \bar{i} + \phi_\pi\bigl(\pi_t^B - \pi^*\bigr) + \phi_y\tilde{y}_t^B, \quad \phi_\pi > 1
+i_t^B = r + \phi_\pi(\pi_t^B - \pi_{target}) + \phi_y y_t^B
 \]
 
-where $\phi_y \geq 0$ is the output gap coefficient and $\tilde{y}_t^B$ is the output gap. In normal times, the resulting rate hike would appreciate the Zloty via the Uncovered Interest Parity (UIP) condition:
+where $\phi_\pi > 1$, $\phi_y \geq 0$ is the output gap coefficient, and $y_t^B$ is the output gap. In normal times, the resulting rate hike would appreciate the Zloty via the Uncovered Interest Parity (UIP) condition:
 
 \[
-\mathbb{E}_t\bigl[s_{t+1}^B\bigr] - s_t^B = i_t^B - i_t^*
+E_t[s_{t+1}^B] - s_t^B = i_t^B - i_t^*
 \]
+Here, $i_t^*$ denotes the foreign reference interest rate.
 
-During the 2022 energy crisis, however, global risk aversion drove capital outflows from Central and Eastern European currencies. The Zloty \textit{depreciated} despite aggressive tightening---the \textit{fear of floating} phenomenon (Calvo and Reinhart, 2002). Depreciation then feeds back into $\Delta \tilde{p}_t^{G,B}$, raising inflation further and inducing additional rate hikes. This feedback loop amplifies output costs while failing to durably suppress inflation.
+During the 2022 energy crisis, however, global risk aversion drove capital outflows from Central and Eastern European currencies. The Zloty \textit{depreciated} despite aggressive tightening---the \textit{fear of floating} phenomenon (Calvo and Reinhart, 2002). Depreciation then feeds back into $\Delta p_t^{G,B}$, raising inflation further and inducing additional rate hikes. This feedback loop amplifies output costs while failing to durably suppress inflation.
 
 
 \subsection{Empirical Predictions}
