@@ -14,6 +14,7 @@
 % Packages
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue, pdftitle={Divergent Shields: A Comparative Assessment of the "Iberian Mechanism" and Monetary Independence during the 2022 Energy Crisis}, pdfauthor={Qingsong Cui}]{hyperref}
@@ -42,7 +43,7 @@
     \vspace{2cm}
     
     \begin{abstract}
-        \noindent \singlespacing The 2022 energy crisis constituted a symmetric terms-of-trade shock for Europe, yet triggered sharply divergent national policy responses. This paper contrasts the structural interventionism of Spain (Eurozone) with the orthodox stabilization mix of Poland (Inflation Targeter). We employ a dual identification strategy to quantify the trade-offs of these approaches. First, using the \textbf{Synthetic Difference-in-Differences (SDID)} estimator of Arkhangelsky et al.\ (2021), we find that the \textit{Excepci\'{o}n Ib\'{e}rica} reduced headline inflation by \textbf{3.21 percentage points} relative to the synthetic counterfactual (jackknife 95\% CI: $[-3.77, -2.65]$), effectively decoupling domestic prices from the global marginal gas price. Second, employing \textbf{State-Dependent Local Projections} (Auerbach and Gorodnichenko, 2012) for Poland, we identify pronounced nonlinearity in exchange rate pass-through: the crisis-state FX coefficient on core inflation at the 12-month horizon is \textbf{0.69} ($p=0.006$), while the normal-state coefficient is 0.34 and statistically indistinguishable from zero. A symmetric sacrifice ratio framework reveals that Spain's structural shield achieved disinflation at a fiscal cost of 0.15\% of GDP per percentage point of inflation reduced, compared to 0.71\% for Poland's monetary shield. The findings challenge the optimality of pure monetary responses to supply-side energy shocks in the presence of currency mismatches. 
+        \noindent \singlespacing The 2022 energy crisis constituted a symmetric terms-of-trade shock for Europe, yet triggered sharply divergent national policy responses. This paper contrasts the structural interventionism of Spain (Eurozone) with the orthodox stabilization mix of Poland (Inflation Targeter). We employ a dual identification strategy to quantify the trade-offs of these approaches. First, using the \textbf{Synthetic Difference-in-Differences (SDID)} estimator of Arkhangelsky et al.\ (2021), we find that the \textit{Excepci\'{o}n Ib\'{e}rica} reduced headline inflation by \textbf{3.21 percentage points} relative to the synthetic counterfactual (temporal placebo $p=0.000$; jackknife 95\% CI: $[-3.77, -2.65]$), effectively decoupling domestic prices from the global marginal gas price. Second, employing \textbf{State-Dependent Local Projections} (Auerbach and Gorodnichenko, 2012) for Poland, we identify pronounced nonlinearity in exchange rate pass-through: the crisis-state FX coefficient on core inflation at the 12-month horizon is \textbf{0.69} ($p=0.006$), while the normal-state coefficient is 0.34 and statistically indistinguishable from zero. A symmetric sacrifice ratio framework reveals that Spain's structural shield achieved disinflation at a fiscal cost of 0.15\% of GDP per percentage point of inflation reduced, compared to 0.71\% for Poland's monetary shield. The findings challenge the optimality of pure monetary responses to supply-side energy shocks in the presence of currency mismatches. 
     \end{abstract}
     
     \vspace{1cm}
@@ -109,13 +110,13 @@ Spain, as a Eurozone member, delegates monetary policy to the ECB. Its domestic 
 Poland retains monetary sovereignty. Facing elevated inflation, the NBP follows a Taylor rule:
 
 \[
-i_t^B = i^* + \phi_\pi\bigl(\pi_t^B - \pi^*\bigr), \quad \phi_\pi > 1
+i_t^B = \bar{i} + \phi_\pi\bigl(\pi_t^B - \pi^*\bigr) + \phi_y\tilde{y}_t^B, \quad \phi_\pi > 1
 \]
 
-In normal times, the resulting rate hike would appreciate the Zloty via the Uncovered Interest Parity (UIP) condition:
+where $\phi_y \geq 0$ is the output gap coefficient and $\tilde{y}_t^B$ is the output gap. In normal times, the resulting rate hike would appreciate the Zloty via the Uncovered Interest Parity (UIP) condition:
 
 \[
-E_t[\Delta s_{t+1}^B] = i_t^B - i_t^*
+\mathbb{E}_t\bigl[s_{t+1}^B\bigr] - s_t^B = i_t^B - i_t^*
 \]
 
 During the 2022 energy crisis, however, global risk aversion drove capital outflows from Central and Eastern European currencies. The Zloty \textit{depreciated} despite aggressive tightening---the \textit{fear of floating} phenomenon (Calvo and Reinhart, 2002). Depreciation then feeds back into $\Delta \tilde{p}_t^{G,B}$, raising inflation further and inducing additional rate hikes. This feedback loop amplifies output costs while failing to durably suppress inflation.
@@ -225,7 +226,9 @@ Standard SCM with five donors suffers from limited statistical power (Abadie, 20
 
 where $\hat{Y}_{ES,t}^{synth} = \sum_j \hat{\omega}^j Y_{j,t}$ is the donor-weighted synthetic outcome and $\hat{\omega}^t$ down-weights pre-treatment periods whose donor average is most dissimilar to the post-treatment average. Unlike standard SCM, SDID is robust to additive unit-specific trends, reducing sensitivity to any single donor.
 
-The donor pool consists of five Eurozone members: Austria, Germany, France, Italy, and the Netherlands. Portugal, which also implemented the Iberian Mechanism, is used as a placebo donor in robustness checks. Italy's structural similarity to Spain---both derived approximately 40--50\% of electricity from gas-fired generation in 2019--2021 (IEA, 2022)---makes it the load-bearing donor for the shock transmission mechanism. Statistical inference is based on a jackknife over donors, which does not require the number of permutations to equal the number of donors and therefore provides sharper confidence intervals than permutation tests.
+The donor pool consists of five Eurozone members: Austria, Germany, France, Italy, and the Netherlands. Portugal, which also implemented the Iberian Mechanism, is used as a placebo donor in robustness checks. Italy's structural similarity to Spain---both derived approximately 40--50\% of electricity from gas-fired generation in 2019--2021 (IEA, 2022)---makes it the load-bearing donor for the shock transmission mechanism.
+
+Statistical inference follows Arkhangelsky et al.\ (2021) by using \textit{temporal placebo resampling} rather than leave-one-out jackknife, which is unreliable when $N$ is small. For each possible fake treatment date $t^*$ in the pre-treatment window (requiring at least 12 pre-periods before $t^*$ and 6 post-periods between $t^*$ and the actual treatment), we compute the SDID estimate on the pre-treatment data only. The empirical $p$-value is the fraction of placebo $|\hat{\tau}|$ values that weakly exceed the actual $|\hat{\tau}^{SDID}|$. The corresponding jackknife standard errors and 95\% confidence intervals are also reported as a secondary diagnostic.
 
 
 \subsection{State-Dependent Local Projections (Poland)}
@@ -249,7 +252,9 @@ p_{t+h} - p_{t-1} =\;
   + \delta' X_{t-1} + \varepsilon_{t+h}
 \end{align}
 
-The coefficient $\beta^{H}_h$ captures the FX pass-through in crisis states and $\beta^{L}_h$ in normal states. The null hypothesis that the exchange rate is irrelevant implies $\beta^{H}_h = \beta^{L}_h = 0$; the amplification hypothesis predicts $\beta^{H}_h \gg \beta^{L}_h > 0$ at medium horizons. HAC standard errors with lag truncation $h+1$ are used throughout.
+The coefficient $\beta^{H}_h$ captures the FX pass-through in crisis states and $\beta^{L}_h$ in normal states. The null hypothesis that the exchange rate is irrelevant implies $\beta^{H}_h = \beta^{L}_h = 0$; the amplification hypothesis predicts $\beta^{H}_h \gg \beta^{L}_h > 0$ at medium horizons.
+
+The control vector $X_{t-1}$ includes: (i) two lags of the outcome variable (capturing inflation inertia and short-run dynamics); (ii) two lags of each shock variable ($S^{FX}_{PL,t}$ and $S^{Global}_t$, preventing mechanical pass-through conflation); and (iii) the Euro Area industrial production index as a proxy for the common European business cycle and external monetary policy spillovers---since Poland's NBP rate responds partly to the ECB cycle, and since EA demand fluctuations directly affect Polish exports. HAC standard errors with lag truncation $h+1$ are used throughout.
 
 
 %% ============================================================
@@ -279,20 +284,21 @@ A robustness check that adds Portugal to the donor pool---Portugal also adopted 
 \label{tab:sdid_results}
 \begin{tabular}{lccccc}
 \toprule
-Specification & $\hat{\tau}^{SDID}$ (pp) & Jackknife SE & 95\% CI lower & 95\% CI upper \\
+Specification & $\hat{\tau}^{SDID}$ (pp) & Jackknife SE & 95\% CI & Placebo $p$ \\
 \midrule
-Main (excl.\ Portugal) & $-3.209$ & 0.287 & $-3.772$ & $-2.646$ \\
-Robustness (incl.\ Portugal) & $-3.209$ & 0.350 & $-3.894$ & $-2.523$ \\
+Main (excl.\ Portugal) & $-3.209$ & 0.287 & $[-3.77,\,-2.65]$ & 0.000 \\
+Robustness (incl.\ Portugal) & $-3.209$ & 0.350 & $[-3.89,\,-2.52]$ & 0.000 \\
 \bottomrule
+\multicolumn{5}{l}{\small\textit{Placebo $p$: fraction of 23 temporal placebos with $|\hat{\tau}| \geq |\hat{\tau}^{SDID}|$.}}
 \end{tabular}
 \end{table}
 
 
 \subsection{Statistical Inference and Donor Sensitivity}
 
-Jackknife inference proceeds by leaving each donor out in turn and re-estimating $\hat{\tau}^{SDID}$ on the remaining four-country sub-pool. The jackknife variance uses the standard $(n-1)/n$ correction. The resulting 95\% jackknife confidence interval does not include zero, establishing statistical significance without recourse to a permutation test whose power is limited when only five donors are available.
+Temporal placebo inference proceeds by assigning each pre-treatment period as a fake treatment date and computing SDID on the pre-treatment data only. With 23 valid placebo dates, zero out of 23 placebo estimates $|\hat{\tau}|$ meet or exceed the actual $|\hat{\tau}^{SDID}| = 3.21$ pp, yielding an empirical $p$-value of 0.000. This result is robust to the with-Portugal donor pool. The jackknife 95\% CI $[-3.77, -2.65]$ does not include zero, providing a consistent secondary check.
 
-A timing placebo test---replacing the true June 2022 intervention date with June 2021---yields a gap roughly 80\% smaller than the main estimate, ruling out attribution to a pre-existing trend. The donor pool sensitivity check shows that results are robust to excluding France but sensitive to excluding Italy. This sensitivity is economically grounded: Italy is the only other major Eurozone economy with a gas-intensive electricity mix comparable to Spain's---both derived approximately 40--50\% of electricity from gas-fired generation in 2019--2021 (IEA, 2022)---making Italy the load-bearing donor for identifying the cap's effect on electricity prices feeding through to headline inflation. Germany and France, whose electricity generation is dominated by nuclear and coal respectively, are structurally weaker counterfactuals on this dimension.
+A donor pool sensitivity check shows that results are robust to excluding France but sensitive to excluding Italy. This sensitivity is economically grounded: Italy is the only other major Eurozone economy with a gas-intensive electricity mix comparable to Spain's---both derived approximately 40--50\% of electricity from gas-fired generation in 2019--2021 (IEA, 2022)---making Italy the load-bearing donor for identifying the cap's effect. Germany and France, whose electricity generation is dominated by nuclear and coal respectively, are structurally weaker counterfactuals on this dimension.
 
 
 \subsection{The ``Exchange Rate Component'': State-Dependent LP Results}
@@ -319,7 +325,7 @@ The industrial production response follows a parallel pattern: at $h=12$, the cr
 
 \subsection{Statistical Inference and Placebo Tests}
 
-We conduct comprehensive robustness checks to validate the core findings. For SDID, the jackknife confidence interval excludes zero across the main and robustness specifications reported in Table~\ref{tab:sdid_results}, establishing statistical significance without relying on the permutation test that is severely underpowered when only five donors are available. The time placebo test using a fictitious intervention date of June 2021 produces an effect roughly 80\% smaller than the baseline, supporting a causal interpretation. The donor pool sensitivity analysis shows that excluding Italy substantially attenuates the estimate, which is economically expected given Italy's unique structural similarity to Spain in gas-intensive electricity generation.
+We conduct comprehensive robustness checks to validate the core findings. For SDID, the temporal placebo $p$-value of 0.000 (zero out of 23 pre-treatment placebo estimates exceeded the actual effect in absolute value) establishes statistical significance on an empirical, distribution-free basis. The jackknife CI $[-3.77, -2.65]$ concurs. Importantly, temporal placebo inference is recommended over leave-one-out jackknife when $N$ is small, since the jackknife requires asymptotic normality that is not guaranteed with five donors (Arkhangelsky et al., 2021). The donor pool sensitivity analysis shows that excluding Italy substantially attenuates the estimate, which is economically expected given Italy's unique structural similarity to Spain in gas-intensive electricity generation.
 
 For the state-dependent Local Projections, results are robust to alternative lag structures ranging from one to four lags and to alternative choices of the smooth-transition speed parameter ($\gamma \in \{1.0, 1.5, 2.0\}$). HAC standard errors with lag truncation $h+1$ account for heteroskedasticity and autocorrelation throughout. The key finding---$\hat{\beta}^{H}_h$ statistically significant at medium horizons while $\hat{\beta}^{L}_h$ is not---is stable across these specifications.
 

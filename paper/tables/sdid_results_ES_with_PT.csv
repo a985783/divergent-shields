@@ -4,6 +4,8 @@ Jackknife_SE,0.3497
 CI_lower_95,-3.8943
 CI_upper_95,-2.5233
 t_stat,-9.175
+Placebo_p_value,0.0
+N_placebo,23.0
 N_donors,6.0
 T_pre,41.0
 T_post,19.0

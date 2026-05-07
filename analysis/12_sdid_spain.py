@@ -179,6 +179,40 @@ def jackknife_se(panel, treat, donors, T0):
     return se, loo_estimates
 
 
+def temporal_placebo_pvalue(panel, treat, donors, T0,
+                            min_pre=12, min_post=6):
+    """
+    Temporal placebo inference following Arkhangelsky et al. (2021).
+
+    For each possible fake treatment date t* in the pre-treatment window,
+    compute SDID on the subset of data that lies entirely before the actual
+    treatment date. The empirical p-value is the fraction of placebo
+    |tau| values >= |tau_actual|.
+
+    min_pre  : minimum pre-treatment periods required before t*
+    min_post : minimum post-placebo periods required (t* to T0)
+    """
+    # Use only pre-treatment data to build the null distribution
+    pre_panel = panel.iloc[:T0]
+    tau_actual, *_ = sdid_estimate(panel, treat, donors, T0)
+
+    placebo_taus = []
+    for T0_fake in range(min_pre, T0 - min_post):
+        try:
+            tau_fake, *_ = sdid_estimate(pre_panel, treat, donors, T0_fake)
+            placebo_taus.append(tau_fake)
+        except Exception:
+            continue
+
+    placebo_taus = np.array(placebo_taus)
+    if len(placebo_taus) == 0:
+        return np.nan, placebo_taus
+
+    n_extreme = np.sum(np.abs(placebo_taus) >= np.abs(tau_actual))
+    p_val = n_extreme / len(placebo_taus)
+    return p_val, placebo_taus
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # Main
 # ══════════════════════════════════════════════════════════════════════════
@@ -205,7 +239,10 @@ def run_sdid(donors, label="main"):
     ci_lo = tau - 1.96 * se
     ci_hi = tau + 1.96 * se
     t_stat = tau / se if se > 0 else np.nan
-    p_val  = 2 * (1 - float(np.abs(t_stat) > 1.96))   # normal approximation
+
+    # Temporal placebo p-value (preferred for small N)
+    p_placebo, placebo_taus = temporal_placebo_pvalue(
+        panel, TREATMENT, available_donors, T0)
 
     print(f"\n=== SDID Results [{label}] ===")
     print(f"Donors        : {available_donors}")
@@ -213,15 +250,17 @@ def run_sdid(donors, label="main"):
     print(f"Jackknife SE  : {se:.4f}")
     print(f"95% CI        : [{ci_lo:.4f}, {ci_hi:.4f}]")
     print(f"t-stat        : {t_stat:.3f}")
+    print(f"Placebo N     : {len(placebo_taus)}")
+    print(f"Placebo p-val : {p_placebo:.4f}")
     print(f"Unit weights  : { {d: round(w, 3) for d, w in zip(available_donors, omega_i)} }")
 
     # ── save CSV ──────────────────────────────────────────────────────────
     results = pd.DataFrame({
         "metric": ["SDID_estimate_pp", "Jackknife_SE", "CI_lower_95", "CI_upper_95",
-                   "t_stat", "N_donors", "T_pre", "T_post"],
+                   "t_stat", "Placebo_p_value", "N_placebo", "N_donors", "T_pre", "T_post"],
         "value":  [round(tau, 4), round(se, 4), round(ci_lo, 4), round(ci_hi, 4),
-                   round(t_stat, 3), len(available_donors),
-                   T0, len(gap_post)]
+                   round(t_stat, 3), round(p_placebo, 4), len(placebo_taus),
+                   len(available_donors), T0, len(gap_post)]
     })
     out_csv = TABLE_DIR / f"sdid_results_ES_{label}.csv"
     results.to_csv(out_csv, index=False)
@@ -260,7 +299,8 @@ def run_sdid(donors, label="main"):
                     gap_post + 1.96 * se,
                     alpha=0.15, color="steelblue", label="95% jackknife CI")
     ax.plot(post_dates, gap_post, color="steelblue",
-            linewidth=2.0, label=f"SDID gap (τ = {tau:.2f} pp)")
+            linewidth=2.0,
+            label=f"SDID gap (τ = {tau:.2f} pp, p_placebo = {p_placebo:.3f})")
 
     ax.set_xlabel("")
     ax.set_ylabel("Gap (actual − synthetic Spain), pp", fontsize=10)
@@ -278,15 +318,15 @@ def run_sdid(donors, label="main"):
     plt.close(fig)
     print(f"Figure saved: sdid_gap_ES_HICP_Total_{label}.png")
 
-    return tau, se, loo_ests
+    return tau, se, loo_ests, p_placebo
 
 
 if __name__ == "__main__":
     # Main estimate (5-donor pool)
-    tau_main, se_main, loo_main = run_sdid(DONORS_MAIN, label="main")
+    tau_main, se_main, loo_main, p_main = run_sdid(DONORS_MAIN, label="main")
 
     # Robustness: include PT (also has Iberian Mechanism → expect smaller effect)
-    tau_full, se_full, loo_full = run_sdid(DONORS_FULL, label="with_PT")
+    tau_full, se_full, loo_full, p_full = run_sdid(DONORS_FULL, label="with_PT")
 
     # Summary table combining both
     summary = pd.DataFrame({
@@ -297,6 +337,7 @@ if __name__ == "__main__":
                              round(tau_full  - 1.96*se_full,  3)],
         "CI_upper_95":      [round(tau_main + 1.96*se_main, 3),
                              round(tau_full  + 1.96*se_full,  3)],
+        "Placebo_p_value":  [round(p_main, 4), round(p_full, 4)],
     })
     summary.to_csv(TABLE_DIR / "sdid_results_ES.csv", index=False)
     print("\n=== Combined SDID Summary ===")

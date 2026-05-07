@@ -1,3 +1,3 @@
-specification,SDID_estimate_pp,Jackknife_SE,CI_lower_95,CI_upper_95
-Main (excl. PT),-3.209,0.287,-3.772,-2.646
-With Portugal,-3.209,0.35,-3.894,-2.523
+specification,SDID_estimate_pp,Jackknife_SE,CI_lower_95,CI_upper_95,Placebo_p_value
+Main (excl. PT),-3.209,0.287,-3.772,-2.646,0.0
+With Portugal,-3.209,0.35,-3.894,-2.523,0.0
