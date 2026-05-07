@@ -156,17 +156,27 @@ def main():
             'required': True
         },
         {
+            'path': 'analysis/12_sdid_spain.py',
+            'desc': '5. Synthetic Difference-in-Differences (Spain)',
+            'required': True
+        },
+        {
+            'path': 'analysis/13_state_dependent_lp.py',
+            'desc': '6. State-Dependent Local Projections (Poland)',
+            'required': True
+        },
+        {
             'path': 'analysis/10_fiscal_cost_estimation.py',
-            'desc': '5. Fiscal Cost Estimation',
+            'desc': '7. Symmetric Sacrifice Ratio Matrix',
             'required': True
         }
     ]
-    
+
     # Add optional robustness checks
     if not args.fast:
         scripts.append({
             'path': 'analysis/05_robustness_checks.py',
-            'desc': '5. Robustness Checks (Donor Pools, Time Periods)',
+            'desc': '8. Robustness Checks (Donor Pools, Time Periods)',
             'required': False
         })
     
